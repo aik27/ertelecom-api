@@ -1,25 +1,148 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
-    <br>
-</p>
+# Тестовое задание
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+Веб-сервер обеспечивает API для других приложений. Бизнес владеет WiFi точками, через которые клиент авторизуется для доступа в интернет.
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+Требуется реализовать веб-интерфейс администратора + API для программистов приложений, которое показывает по идентификатору точки, какой язык на ней установлен по умолчанию.
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
+Согласно бизнес-требованиям администратор приложения должен иметь возможность изменять настройки языка приложения (en, ru) по умолчанию (на конкретной точке в городе, по всем точкам города, по всем точкам).
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
+На основе фокуса на производительность и скорость ответов предложить и обосновать схему хранения (структура таблиц + индексы) и архитектуру приложения.
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![build](https://github.com/yiisoft/yii2-app-advanced/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-advanced/actions?query=workflow%3Abuild)
+* приложение на Yii2;
+* использовать REST API;
+* использовать миграции Yii2;
+* положить код всего проекта в git (например, Bitbucket или github);
+* репозиторий должен содержать README.md файл, в котором описаны требования к окружению и как запустить приложение;
+* приложение не должно потреблять больше 128MB памяти в пике.
+
+## Решение
+
+### Рабочее окружение
+
+* Nginx 1.19 
+* PHP 7.4 (FPM)
+* MySQL 5.7 или MariaDB
+* Composer
+
+### Установка приложения с помощью docker compose:
+
+1. Клонируем репозиторий
+
+```bash
+git clone https://github.com/aik27/ertelecom-api
+cd ertelecom-api
+```
+
+2. Устанавливаем зависимости
+
+```bash
+composer update
+```
+
+3. Билдим контейнеры
+
+```bash
+docker-compose build
+```
+
+4. Запускаем контейнеры
+
+```bash
+docker-compose up -d
+```
+
+5. Меняем рабочее окружение на production
+
+```bash
+docker-compose exec admin php init --env=Production --overwrite=All
+```
+
+6. Применяем миграции
+
+```bash
+docker-compose exec admin php yii migrate --interactive=0
+```
+
+7. Доступ к приложению:
+
+```bash
+API: http://127.0.0.1:3132
+Административная панель: http://127.0.0.1:3133
+
+Тестовый доступ в панель:
+Логин: root
+Пароль: SWlfwj4e78Fsk
+```
+
+### Установка приложения вручную:
+
+1. Клонируем репозиторий
+
+```bash
+git clone https://github.com/aik27/ertelecom-api
+cd ertelecom-api
+```
+
+2. Устанавливаем зависимости
+
+```bash
+composer update
+```
+
+3. Меняем рабочее окружение на production
+
+```bash
+php init --env=Production --overwrite=All
+```
+
+4. Правим настройки соединения с БД
+
+```bash
+vi common/config/main-local.php
+```
+
+5. Применяем миграции
+
+```bash
+php yii migrate --interactive=0
+```
+
+6. Настраиваем имена серверов, корневые директории и роутинг в Nginx:
+
+```text
+    # Для API
+
+    server_name ertelecom.api;
+    root        [path to app]/api/web/;
+    index       index.php;
+
+    location / {
+       try_files $uri $uri/ /index.php$is_args$args;
+    }
+```
+```text
+    # Для административной панели
+
+    server_name panel.ertelecom.api;
+    root        [path to app]/admin/web/;
+    index       index.php;
+
+    location / {
+       try_files $uri $uri/ /index.php$is_args$args;
+   }
+```
+
+7. Доступ к приложению:
+
+```bash
+API: http://ertelecom.api
+Административная панель: http://panel.ertelecom.api
+
+Тестовый доступ в панель:
+Логин: root
+Пароль: SWlfwj4e78Fsk
+```
+
 
 DIRECTORY STRUCTURE
 -------------------

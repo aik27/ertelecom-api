@@ -4,9 +4,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=ertelecom_api',
-            'username' => 'root',
-            'password' => '',
+            'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
+            'username' => 'yii2advanced',
+            'password' => 'secret',
             'charset' => 'utf8mb4',
             'on afterOpen' => function ($event) {
                 $event->sender->createCommand("SET time_zone='Europe/Moscow';")->execute();

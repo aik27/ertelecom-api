@@ -6,7 +6,7 @@ class m211116_112551_insert_table_city extends Migration
 {
     public function safeUp()
     {
-        $this->batchInsert('{{%city}}', ['name'], [
+        $this->batchInsert('{{%city}}', ['id', 'name'], [
             [1, 'Москва'],
             [2, 'Санкт-Петербург'],
             [3, 'Новосибирск'],
