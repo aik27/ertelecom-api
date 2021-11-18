@@ -254,39 +254,35 @@ API: http://ertelecom.api
 
 Для этого отправляем GET запрос на ресурс `/wifi/spots/{id}/language`. Где {id} - числовой индентификатор точки доступа.
 
+При установке в докер:
+
 ```http request
-# при установке в докер
 GET http://127.0.0.1:3132/wifi/spots/99/language
 Accept: application/json
+```
 
-# при ручной установке
+При ручной установке:
+
+```http request
 GET http://ertelecom.api/wifi/spots/99/language
 Accept: application/json
 ```
 
+
 #### Получение расширенной информации о точке доступа:
 
 ```http request
-# при установке в докер
 GET http://127.0.0.1:3132/wifi/spots/99?expand=language,city
-Accept: application/json
-
-# при ручной установке
-GET http://ertelecom.api/wifi/spots/99?expand=language,city
 Accept: application/json
 ```
 
 #### Получение списка точек доступа:
 
 ```http request
-# при установке в докер
 GET http://127.0.0.1:3132/wifi/spots?expand=language,city
 Accept: application/json
-
-# при ручной установке
-GET http://ertelecom.api/wifi/spots?expand=language,city
-Accept: application/json
 ```
+
 Подробнее о том, как запрашивать отдельные поля и присоединять к запросу связанные данные:
 https://www.yiiframework.com/doc/guide/2.0/ru/rest-resources#fields
 
@@ -302,13 +298,9 @@ https://www.yiiframework.com/doc/guide/2.0/ru/rest-resources#collections
 * application/json
 * application/xml
 
+**Пример:**
 ```http request
-# при установке в докер
 GET http://127.0.0.1:3132/wifi/spots?expand=language,city
-Accept: application/xml
-
-# при ручной установке
-GET http://ertelecom.api/wifi/spots?expand=language,city
 Accept: application/xml
 ```
 
@@ -340,6 +332,8 @@ yii user/change-token - изменяет токен для API
 ```
 
 ### Работа с административным интерфейсом
+
+
 
 
 
