@@ -254,14 +254,14 @@ API: http://ertelecom.api
 
 При установке в докер:
 
-```http request
+```text
 GET http://127.0.0.1:3132/wifi/spots/99/language
 Accept: application/json
 ```
 
 При ручной установке:
 
-```http request
+```text
 GET http://ertelecom.api/wifi/spots/99/language
 Accept: application/json
 ```
@@ -270,7 +270,7 @@ Accept: application/json
 
 #### Получение расширенной информации о точке доступа:
 
-```http request
+```text
 GET http://127.0.0.1:3132/wifi/spots/99?expand=language,city
 Accept: application/json
 ```
@@ -279,7 +279,7 @@ Accept: application/json
 
 #### Получение списка точек доступа:
 
-```http request
+```text
 GET http://127.0.0.1:3132/wifi/spots?expand=language,city
 Accept: application/json
 ```
@@ -302,7 +302,7 @@ https://www.yiiframework.com/doc/guide/2.0/ru/rest-resources#collections
 * application/xml
 
 **Пример:**
-```http request
+```text
 GET http://127.0.0.1:3132/wifi/spots?expand=language,city
 Accept: application/xml
 ```
@@ -316,7 +316,7 @@ Accept: application/xml
 После этого все запросы должны передавать `access_token` который будет сопоставляться с соответствующим полем в таблице `users`. 
 
 **Пример:**
-```http request
+```text
 GET http://127.0.0.1:3132/wifi/spots/99/language?access_token=XbgOZGq1I6Q3sndSRcLdgY7MktGQFj3w
 Accept: application/json
 ```
