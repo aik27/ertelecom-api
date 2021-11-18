@@ -32,6 +32,7 @@ console/                 Консольное приложение (создан
 vendor/                  Зависимости
 environments/            Шаблоны настройки окружения
 ```
+В качестве шаблона административного интерфейса была использована библиотека [dmstr/yii2-adminlte-asset](https://github.com/dmstr/yii2-adminlte-asset), функционал которой был доработан.
 
 ![](docs/3.jpg)
 
@@ -96,16 +97,18 @@ environments/            Шаблоны настройки окружения
 
 ### Рабочее окружение
 
+![](docs/4.jpg)
+
 **Рекомендуемые требования:**
 
-* Nginx 1.19.x
+* Nginx 1.20.x
 * PHP 8.0.x (FPM)
 * MySQL 8.0.x
 * Composer
 
 **Минимальные требования:**
 
-* Nginx 1.19.x
+* Nginx 1.19.x / Apache 2.4.x
 * PHP 7.4.x (FPM)
 * MySQL 5.7.x
 * Composer
@@ -240,3 +243,114 @@ API: http://ertelecom.api
 Логин: root
 Пароль: SWlfwj4e78Fsk
 ```
+
+### Работа с REST API
+
+Для выполнения условий задания API реализовано на REST контроллере. 
+
+Поддерживается только метод `GET`
+
+#### Получение языка точки доступа по умолчанию:
+
+Для этого отправляем GET запрос на ресурс `/wifi/spots/{id}/language`. Где {id} - числовой индентификатор точки доступа.
+
+```http request
+# при установке в докер
+GET http://127.0.0.1:3132/wifi/spots/99/language
+Accept: application/json
+
+# при ручной установке
+GET http://ertelecom.api/wifi/spots/99/language
+Accept: application/json
+```
+
+#### Получение расширенной информации о точке доступа:
+
+```http request
+# при установке в докер
+GET http://127.0.0.1:3132/wifi/spots/99?expand=language,city
+Accept: application/json
+
+# при ручной установке
+GET http://ertelecom.api/wifi/spots/99?expand=language,city
+Accept: application/json
+```
+
+#### Получение списка точек доступа:
+
+```http request
+# при установке в докер
+GET http://127.0.0.1:3132/wifi/spots?expand=language,city
+Accept: application/json
+
+# при ручной установке
+GET http://ertelecom.api/wifi/spots?expand=language,city
+Accept: application/json
+```
+Подробнее о том, как запрашивать отдельные поля и присоединять к запросу связанные данные:
+https://www.yiiframework.com/doc/guide/2.0/ru/rest-resources#fields
+
+Подробнее о том, как пользоваться постраничной навигацией:
+https://www.yiiframework.com/doc/guide/2.0/ru/rest-resources#collections
+
+#### Изменение формата ответов:
+
+Сервис поддерживает ответы в JSON и XML. 
+
+Для уточнения формата нужно передавать заголовок `Accept`
+
+* application/json
+* application/xml
+
+```http request
+# при установке в докер
+GET http://127.0.0.1:3132/wifi/spots?expand=language,city
+Accept: application/xml
+
+# при ручной установке
+GET http://ertelecom.api/wifi/spots?expand=language,city
+Accept: application/xml
+```
+
+#### Авторизация:
+
+Для API реализована авторизация на основе `access_token`
+
+Для включения авторизации необходимо расскоментировать ключи `as authenticator` и `as access` в файле `/api/config/main.php`
+
+После этого все запросы должны передавать `access_token` который будет сопоставляться с соответствующим полем в таблице `users`. 
+
+**Пример:**
+```http request
+GET http://127.0.0.1:3132/wifi/spots/99/language?access_token=XbgOZGq1I6Q3sndSRcLdgY7MktGQFj3w
+Accept: application/json
+```
+
+В целях упрощения токен является бессрочным.
+
+### Управление пользователями административного интерфейса и API
+
+Для этого реализована консольная утилита:
+
+```php
+yii user/create - создаёт нового пользователя
+yii user/remove - удаляет пользователя
+yii user/change-password - изменяет пароль пользователя
+yii user/change-token - изменяет токен для API
+```
+
+### Работа с административным интерфейсом
+
+
+
+
+
+
+
+
+
+
+
+
+
+
